@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class-diagram version="1.2.4" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
+  associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
+  <class id="1" language="java" name="net.hka.train.seats.booking.config.DataInitializer" 
+    project="train-station-seats-booking-system" 
+    file="/train-station-seats-booking-system/src/main/java/net/hka/train/seats/booking/config/DataInitializer.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="117" width="152" x="58" y="52"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <interface id="2" language="java" name="net.hka.train.seats.booking.business.service.TrainTripService" 
+    project="train-station-seats-booking-system" 
+    file="/train-station-seats-booking-system/src/main/java/net/hka/train/seats/booking/business/service/TrainTripService.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="189" width="251" x="337" y="15"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <class id="3" language="java" name="net.hka.train.seats.booking.business.service.TrainTripServiceImpl" 
+    project="train-station-seats-booking-system" 
+    file="/train-station-seats-booking-system/src/main/java/net/hka/train/seats/booking/business/service/TrainTripServiceImpl.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="67" width="197" x="363" y="-107"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <interface id="4" language="java" name="net.hka.train.seats.booking.domain.csv.data.provider.CsvDataProvider" 
+    project="train-station-seats-booking-system" 
+    file="/train-station-seats-booking-system/src/main/java/net/hka/train/seats/booking/domain/csv/data/provider/CsvDataProvider.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="135" width="248" x="12" y="249"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <class id="5" language="java" name="net.hka.train.seats.booking.domain.csv.data.provider.TrainTripCsvDataProvider" 
+    project="train-station-seats-booking-system" 
+    file="/train-station-seats-booking-system/src/main/java/net/hka/train/seats/booking/domain/csv/data/provider/TrainTripCsvDataProvider.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="135" y="468"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="6" language="java" name="net.hka.train.seats.booking.web.controller.TrainTripController" 
+    project="train-station-seats-booking-system" 
+    file="/train-station-seats-booking-system/src/main/java/net/hka/train/seats/booking/web/controller/TrainTripController.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="207" width="283" x="321" y="281"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="false"/>      
+      <operations public="true" package="true" protected="true" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <dependency id="7">    
+    <end type="SOURCE" refId="1"/>    
+    <end type="TARGET" refId="4"/>  
+  </dependency>  
+  <realization id="8">    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="2"/>  
+  </realization>  
+  <realization id="9">    
+    <end type="SOURCE" refId="5"/>    
+    <end type="TARGET" refId="4"/>  
+  </realization>  
+  <dependency id="10">    
+    <end type="SOURCE" refId="1"/>    
+    <end type="TARGET" refId="2"/>  
+  </dependency>  
+  <association id="11">    
+    <end type="SOURCE" refId="6" navigable="false">      
+      <attribute id="12" name="tripService"/>      
+      <multiplicity id="13" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="2" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+    sort-features="false" accessors="true" visibility="true">    
+    <attributes public="true" package="true" protected="true" private="true" static="true"/>    
+    <operations public="true" package="true" protected="true" private="true" static="true"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>

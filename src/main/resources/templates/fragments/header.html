@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<link href="../../../resources/css/bootstrap.min.css" rel="stylesheet"
+	media="screen" th:href="@{/resources/css/bootstrap.min.css}" />
+</head>
+<body>
+	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" th:fragment="header">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex8-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>                
+            </button>
+            <a class="navbar-brand" href="#" th:href="@{/}" th:text="#{form.header.navbar.brand}">Railway Station Booking System</a>
+        </div>
+        
+        <!-- Collect the nav links, forms, and other content for toggling -->
+		<div class="collapse navbar-collapse navbar-ex8-collapse">			
+			<ul class="nav navbar-nav">
+                <li th:classappend="${module == 'home' ? 'active' : ''}">
+                    <a href="#" th:href="@{/}" th:text="#{form.header.navbar.home.link}">Home</a>
+                </li> 
+                 
+                <li th:classappend="${module == 'trips' ? 'active' : ''}">
+                    <a href="#" th:href="@{/trip}" th:text="#{form.header.navbar.trips.list.link}">Train Trips</a>
+                </li>                         
+            </ul>
+		</div><!--/.nav-collapse -->
+	</nav>
+</body>
+</html>

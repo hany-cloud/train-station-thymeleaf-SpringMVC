@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link href="../../../resources/css/bootstrap.min.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap.min.css}"/>
+    <link href="../../../resources/css/sticky-footer-navbar.css" rel="stylesheet" media="screen" th:href="@{/resources/css/sticky-footer-navbar.css}"/>
+</head>
+<body>
+    <!--/*  Multiple fragments may be defined in one file */-->
+    <div th:fragment="footer">               
+        <footer class="footer">
+	      <div class="container">
+	         &copy; <span class="text-muted" th:text="${#temporals.format(#temporals.createNow(), 'yyyy')}">2020</span>
+        	<span class="text-muted" th:text="#{form.footer.developed.by.section}">Developed By HK</span>
+	      </div>
+	    </footer>         
+    </div>          
+</body>
+</html>
+

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" >
+<!--/* Title of this template will be passed to the head fragment along with custom links and scripts */-->
+<head th:replace="trip/shared/layout :: head(~{this :: title}, ~{this :: .custom-link})">
+    <title th:text="#{form.trip.detail.title}">Trip Details</title>
+    
+    <!-- Custom links for this page only -->
+    <link class="custom-link" href="../../../resources/css/trip/trip.css" th:href="@{/resources/css/trip/trip.css}" />
+</head>  
+<body>
+
+<!--/* The element with breadcrumb class will be passed to the header fragment */-->
+<header th:insert="trip/shared/layout :: header(~{ :: .breadcrumb})">
+    <ol class="breadcrumb container">
+        <li><a href="#" th:href="@{/}" th:text="#{form.header.navbar.home.link}">Home</a></li>
+        <li><a href="#" th:href="@{/trip}" th:text="#{form.header.navbar.trips.list.link}">Train Trips</a></li>  
+        <li th:text="#{form.header.navbar.trip.detail.link(${trip.id})}">Trip</li>
+    </ol>
+</header>
+
+<!--/* Insert content fragment with content of the element with id = 'trip-details' */-->
+<div th:insert="trip/shared/layout :: content(~{ :: #trip-details})">
+    <div id="trip-details" th:object="${trip}">
+    	<div class="row">
+    		<div class="col-xs-12 col-sm-8">
+    			<h3 th:text="*{destination}">Chicago</h3>
+    			<hr/>
+    			
+    			<h4 th:text="#{form.departure.time} + ' ' + *{departureTime}">Departure Time</h4><strong th:text="'(' + *{localizedDepartureTime}+ ')'">12:12</strong>
+				<hr/>
+				    			
+    			<h4><span th:text="#{form.total.seats}">Total Seats:</span> <strong th:text="*{totalSeatsCount}"> 45</strong></h4>
+				<hr/>
+    			
+    			<th:block th:if="*{bookedWindowSeatsCount + bookedAisleSeatsCount != totalSeatsCount}" >
+	    			<h5><span th:text="#{form.window.seats}">Window Seats</span>: <span th:text="*{bookedWindowSeatsCount} + ' ' + #{form.booked.of} + ' ' + (*{(totalSeatsCount) % 2 == 0}? *{totalSeatsCount/2} : *{(totalSeatsCount/2) + 1}) + ' ' + #{form.total} + '.'">15 booked of 30 total</span></h5>
+	    			<h5><span th:text="#{form.aisle.seats}">Aisle Seats</span>: <span th:text="*{bookedAisleSeatsCount} + ' ' + #{form.booked.of} + ' ' + *{totalSeatsCount/2} + ' ' + #{form.total} + '.'">15 booked of 30 total</span></h5>
+	    			
+	    			<a class="btn btn-success" href="#" th:href="@{/trip/{id}/book(id=*{id})}" th:title="#{form.book.seat.button.title}" title="Click to book seat(s) for the trip!!!">
+						<span th:text="#{form.book.seat.button.value}">Book A Seat</span>
+					</a>
+    			</th:block> 
+    		</div>
+    	</div>
+    	
+    	<!-- recommend next available trip(s) for the same destination if any exist -->
+    	<th:block th:if="*{bookedWindowSeatsCount + bookedAisleSeatsCount == totalSeatsCount}">
+	        <div class="row">
+	        	<h5 th:text=#{form.message.trip.detail.no.more.seats}>No more seats are available for booking for this trip, you might choose from recommended trips if any available!</h5>
+    			 
+    			<!-- Display all trips that are available and have the same destination, if any exists -->    			    			
+    			<div id="trip-list" th:if="${#lists.size(trips) > 0}">
+			    	<div th:replace="trip/shared/trip-table :: tripTable (caption=#{form.trip.detail.recommended.trips.table.caption(${#lists.size(trips)})}, trips=${trips})">Table to list the recommended trips should render here</div>          
+			    </div>    		
+			    
+			    <th:block th:if="${trips.empty}">
+    				<h5 th:text="#{form.message.trip.detail.no.recommendations.found.for.same.destination}">No recommendations are available for the same destination</h5>
+    				
+    				<!-- Display all trips that are available, if any exists -->      				    			
+    				<div id="trip-list" th:if="${#lists.size(allAvailableTrips) > 0}">    					
+				    	<div th:replace="trip/shared/trip-table :: tripTable (caption=#{form.trip.detail.recommended.trips.table.caption(${#lists.size(allAvailableTrips)})}, trips=${allAvailableTrips})">Table to list the recommended trips should render here</div>          
+				    </div>
+				    
+				    <th:block th:if="${allAvailableTrips.empty}">
+    					<h5 th:text="#{form.message.trip.detail.no.recommendation.available}">Sorry! No more trips have available seats for booking.</h5>
+    				</th:block>
+				    
+    			</th:block>	
+    		</div>
+	    </th:block>    	
+    </div>
+</div>
+<div th:include="fragments/footer :: footer">&copy; 2017 The Static Templates</div>
+</body>
+</html>

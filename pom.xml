@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.4.1</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+	<groupId>trainseatsbooking</groupId>
+	<artifactId>layouts</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>train-station-seats-booking-system</name>
+	<description>Railway Station Online Booking System</description>
+
+	<properties>
+		<java.version>1.8</java.version>
+		
+		<thymeleaf-layout-dialect.version>2.4.1</thymeleaf-layout-dialect.version>
+		
+		<org.springframework.js.version>2.0.2.RELEASE</org.springframework.js.version>
+		
+		<!-- <modelmapper.version>2.3.7</modelmapper.version> -->
+		
+		<opencsv.version>5.3</opencsv.version>
+		
+		<!-- <com.google.guava.version>19.0</com.google.guava.version> -->	
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+		</dependency>
+		<!-- Add thymeleaf-layout-dialect
+			you can build layouts using the Thymeleaf Standard Layout System or the Layout Dialect – 
+			which uses the decorator pattern for working with the layout files.
+		  -->
+		<dependency>
+	        <groupId>nz.net.ultraq.thymeleaf</groupId>
+	        <artifactId>thymeleaf-layout-dialect</artifactId>
+	        <version>${thymeleaf-layout-dialect.version}</version>
+	    </dependency>
+		
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		
+		<!-- Add dependency for AJAX request -->
+		<dependency>
+		    <groupId>org.springframework.webflow</groupId>
+		    <artifactId>org.springframework.js</artifactId>
+		    <version>${org.springframework.js.version}</version>
+		</dependency>
+		
+		
+		
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>	
+			
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<optional>true</optional>
+		</dependency>
+		
+		<!-- Object mapping makes it easy to convert one model to another, 
+			allowing separate models to remain segregated. 
+		
+		<dependency>
+		    <groupId>org.modelmapper</groupId>
+		    <artifactId>modelmapper</artifactId>
+		    <version>${modelmapper.version}</version>
+		</dependency>
+		-->
+		
+		<dependency>
+			<groupId>com.opencsv</groupId>
+			<artifactId>opencsv</artifactId>
+			<version>${opencsv.version}</version>
+		</dependency>
+		
+		<!--  
+		<dependency>
+		    <groupId>com.google.guava</groupId>
+		    <artifactId>guava</artifactId>
+		    <version>${com.google.guava.version}</version>
+		</dependency>
+		-->
+		
+		<!-- Automatically binding properties defined in the application.properties file  using @ConfigurationProperties annotation -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-configuration-processor</artifactId>
+			<optional>true</optional>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<excludes>
+						<exclude>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+						</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<!--/* Title of this template will be passed to the head fragment along with custom links and scripts */-->
+<head th:replace="trip/shared/layout :: head(~{this :: title}, ~{this :: .custom-link})">
+    <title th:text="#{form.trip.list.title}">Train Trip List</title>
+    
+    <!-- Custom links for this page only -->
+    <link class="custom-link" href="../../../resources/css/trip/trip.css" th:href="@{/resources/css/trip/trip.css}" />
+</head>
+<body>
+
+<!--/* The element with bread-crumb class will be passed to the header fragment */-->
+<header th:insert="trip/shared/layout :: header(~{ :: .breadcrumb})">
+    <ol class="breadcrumb container">
+        <li><a href="#" th:href="@{/}" th:text="#{form.header.navbar.home.link}">Home</a></li>
+        <li th:text="#{form.header.navbar.trips.list.link}"><a href="#">Train Trips</a></li>
+    </ol>
+</header>
+
+<!--/* Insert content fragment with content of the element with id = 'trip-list' */-->
+<div th:insert="trip/shared/layout :: content(~{ :: #trip-list})">	
+    <div id="trip-list">
+    	<div th:replace="trip/shared/trip-table :: tripTable (caption=#{form.trip.list.trips.table.caption(${currentTimeStamp})}, trips=${trips})">Table to list all trips should render here</div>          
+    </div>
+</div>
+<div th:include="fragments/footer :: footer">&copy; 2017 The Static Templates</div>
+
+<th:block th:replace="trip/shared/layout :: script(~{this :: .custom-script})">
+    <!-- Custom scripts for this page only -->
+    <script class="custom-script" src="../../../resources/js/trip/trip.js" th:src="@{/resources/js/trip/trip.js}"></script>
+</th:block>
+</body>
+</html>

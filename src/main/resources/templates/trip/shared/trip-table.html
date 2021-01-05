@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="tripTable (caption, trips)">
+	<div class="table-responsive" id="tripTable">   
+   		<table class="table table-bordered table-striped" id="tripListTable" th:fragment="tripListTableFragment">
+           <thead>
+	           	<caption th:text="${caption}">Fri Apr 10 16:37:18 GMT-05:00 2020</caption>
+	            <tr>
+	                <td>#</td>
+	                <td th:text="#{form.departure.time}">Departure Time</td>
+	                <td th:text="#{form.destination}">Destination</td>		                
+	                <td th:text="#{form.actions}">Actions</td>
+	            </tr>
+           </thead>
+        
+           <tbody>
+	            <tr th:if="${trips.empty}">
+	                <td colspan="3" th:text="#{form.message.no.trips.found}">No trips found</td>
+	            </tr>
+	            <tr th:each="trip : ${trips}">
+	                <td th:text="${trip.id}">1</td>
+	                <td>
+	                    <a href="#" th:href="@{/trip/{id}(id=${trip.id})}" th:text="${trip.departureTime} + ' - (' + ${trip.localizedDepartureTime} + ')'">12:00</a>
+	                </td>
+	                <td th:text="${trip.destination}">Chicago</td>
+	                
+	                <td>
+	                	<a href="#" th:href="@{/trip/{id}(id=${trip.id})}" class="btn btn-info" 
+	                		th:title="#{form.trip.detail.button.title}" title="Click to view trip detail">
+	                		<span class="glyphicon glyphicon-eye-open"></span>
+						</a>
+						&#160;
+						<a th:class="${trip.bookedWindowSeatsCount + trip.bookedAisleSeatsCount == trip.totalSeatsCount ? 'btn btn-danger' : 'btn btn-success'}" 
+							href="#" th:href="@{/trip/{id}/book(id=${trip.id})}" 
+							th:title="${trip.bookedWindowSeatsCount + trip.bookedAisleSeatsCount == trip.totalSeatsCount} ? #{form.message.no.more.seats} : #{form.book.seat.button.title}" 
+							title="Click to book seat(s) for the trip!!!">
+							<span class="glyphicon glyphicon-tags"></span>
+						</a>					
+	                </td>
+	            </tr>
+           </tbody>
+       </table> 
+	</div>
+</div>
+</html>

@@ -1,0 +1,6 @@
+06.55,Chicago,12
+07.15,Portland,24
+08.47,Seattle,48
+09.15,San Francisco,6
+09.38,Los Angeles,12
+10.00,San Diego, 48

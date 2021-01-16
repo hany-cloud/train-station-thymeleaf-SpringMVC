@@ -38,7 +38,7 @@ class TrainTripServiceImpl implements TrainTripService {
 
 	// Holds all trips loaded from CSV file, acting as a data store (i.e a
 	// database).
-	private static List<TrainTripDto> syncTripsCollection;
+	private static List<TrainTripDto> syncTripTable;
 	
 	/**
 	 * Default access constructor used to inject the {@link MessageSource} bean and
@@ -55,7 +55,7 @@ class TrainTripServiceImpl implements TrainTripService {
 				: DEFAULT_TIME_12HOUR_PATTERN;
 
 		// initialize our data store.
-		syncTripsCollection = Collections.synchronizedList(new ArrayList<>());
+		syncTripTable = Collections.synchronizedList(new ArrayList<>());
 	}
 
 	@Override
@@ -64,7 +64,7 @@ class TrainTripServiceImpl implements TrainTripService {
 		if (trips == null)
 			throw new IllegalArgumentException("The paremter is null");
 
-		if (syncTripsCollection != null && syncTripsCollection.isEmpty()) {
+		if (syncTripTable != null && syncTripTable.isEmpty()) {
 			
 			// iterates over the train trip entity list to map it to a train trip DTO list.
 			List<TrainTripDto> tripDtos = StreamSupport.stream(trips.spliterator(), false)
@@ -73,12 +73,12 @@ class TrainTripServiceImpl implements TrainTripService {
 						new ArrayList<>()))
 				.collect(Collectors.toList());
 			
-			if(!tripDtos.isEmpty()) syncTripsCollection = Collections.synchronizedList(tripDtos);
+			if(!tripDtos.isEmpty()) syncTripTable = Collections.synchronizedList(tripDtos);
 		}
 			
 
 		// iterate over the trips to populate seats for each trip.
-		syncTripsCollection.stream().map(trip -> {
+		syncTripTable.stream().map(trip -> {
 			List<TrainSeatDto> seats = initializeTrainSeats(trip.getTotalSeatsCount());
 			trip.setSeats(seats);
 
@@ -91,7 +91,7 @@ class TrainTripServiceImpl implements TrainTripService {
 	}
 
 	@Override
-	public Optional<List<TrainSeatDto>> bookSeats(final TrainTripDto tripDto, final List<TrainSeatDto> renderedSeats) {
+	public synchronized Optional<List<TrainSeatDto>> bookSeats(final TrainTripDto tripDto, final List<TrainSeatDto> renderedSeats) {
 
 		if (tripDto == null)
 			throw new IllegalArgumentException("The \"tripDto\" paremter is null");
@@ -102,7 +102,10 @@ class TrainTripServiceImpl implements TrainTripService {
 		// get the trip by id.
 		TrainTripDto persistedTrip = getById(tripDto.getId());
 
-		// check non of the seats are already booked.
+		// holds all the seats that need to be marked as booked.
+		List<TrainSeatDto> seats = new ArrayList<>();
+		
+		// check that non of the seats are already booked.
 		for (int i = 0; i < tripDto.getSeats().size(); i++) {
 
 			TrainSeatDto formSeat = tripDto.getSeats().get(i);
@@ -116,15 +119,21 @@ class TrainTripServiceImpl implements TrainTripService {
 					return Optional.empty();
 				} else {
 					
-					// mark seat as booked.
-					persistedSeat.setSeatBooked(Boolean.TRUE);
-
-					// update window and aisle seats counts.
-					maintainBookedSeatCounts(persistedTrip);
+					// add the seat to a seats list.
+					seats.add(persistedSeat);										
 				}
 			}
 		}
 
+		// iterate over the seats list to mark each seat as booked.
+		seats.forEach(seat -> {
+			// mark seat as booked.
+			seat.setSeatBooked(Boolean.TRUE);			
+		});
+		
+		// update window and aisle seats counts.
+		maintainBookedSeatCounts(persistedTrip);
+		
 		// return a new mapped list of seats, Since no reference is allowed for the list
 		// that is holding trips.
 		return Optional.of(persistedTrip.getSeats().stream().map(seatCloneMapper).collect(Collectors.toList()));
@@ -134,7 +143,7 @@ class TrainTripServiceImpl implements TrainTripService {
 	@Override
 	public List<TrainTripDto> findAll() {
 
-		return syncTripsCollection.stream()
+		return syncTripTable.stream()
 				.map(tripCloneMapper)
 				.collect(Collectors.toList());
 	}
@@ -147,7 +156,7 @@ class TrainTripServiceImpl implements TrainTripService {
 		
 		// filter available trips for the same destination with available seats for
 		// booking.
-		List<TrainTripDto> recommendedTrips = syncTripsCollection.stream()
+		List<TrainTripDto> recommendedTrips = syncTripTable.stream()
 				.filter(trip -> trip.getDestination().equalsIgnoreCase(tripDto.getDestination()) // same destination.
 						/* && trip.getDepartureTime().isAfter(tripDto.getDepartureTime()) */ // commented based on the
 																								// assumption: all trips
@@ -165,7 +174,7 @@ class TrainTripServiceImpl implements TrainTripService {
 	public Iterable<TrainTripDto> findAllAvailableTrips() {
 		
 		// filter all trips with available seats for booking.
-		List<TrainTripDto> recommendedTrips = syncTripsCollection.stream()
+		List<TrainTripDto> recommendedTrips = syncTripTable.stream()
 				.filter(trip -> trip.hasSeatAvailable()) // trip is still has available seats to be booked.
 				.collect(Collectors.toList());
 		
@@ -220,7 +229,7 @@ class TrainTripServiceImpl implements TrainTripService {
 	// Return an instance of trip using the provided trip id, directly from the data
 	// store (the list).
 	private TrainTripDto getById(final Integer id) {
-		return syncTripsCollection.get(id - 1);
+		return syncTripTable.get(id - 1);
 	}
 
 	// Update window and aisle seats count in the trip.
